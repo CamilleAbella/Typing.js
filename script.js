@@ -15,12 +15,12 @@ document.addEventListener( 'DOMContentLoaded', async (event) => {
     await typing.sleep(500)
 
     // Pitch again and break again...
-    await typing.write('Typing.js is simple to use, and...')
+    await typing.write('<span class="name">Typing.js</span> is simple to use, and...')
     await typing.sleep(500)
-    await typing.write('Typing.js is simple to edit 😉')
+    await typing.write('<span class="name">Typing.js</span> is simple to edit 😉')
     await typing.sleep(1000)
-    await typing.write('Typing.js use Promises and he is completely independent.')
+    await typing.write('<span class="name">Typing.js</span> use Promises and he is completely independent.')
     await typing.sleep(500)
-    await typing.write('Thank to use Typing.js !')
-    
+    await typing.write('Thank to use <span class="name">Typing.js</span> !')
+
 })

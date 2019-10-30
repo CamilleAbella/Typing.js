@@ -11,32 +11,34 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div id="typing"></div>
-    <pre><code class="js">  document.addEventListener( 'DOMContentLoaded', async (event) => {
+    <div class="head">
+        <pre><code class="html">&lt;h1 id="typing"&gt;</code></pre><span id="typing"></span><pre><code class="html"></code>&lt;/h1&gt;</code></pre>
+    </div>
+    <pre><code class="js">document.addEventListener( 'DOMContentLoaded', async (event) => {
 
-        // Create typing instance
-        const typing = new Typing({
-            time : 80,      // latence of typing
-            id : 'typing'   // #id of output HTMLElement
-        })
-    
-        // Pitch
-        await typing.write('Hello everyone')
-        await typing.write('Hello World !')
-    
-        // Break X ms
-        await typing.sleep(500)
-    
-        // Pitch again and break again...
-        await typing.write('Typing.js is simple to use, and...')
-        await typing.sleep(500)
-        await typing.write('Typing.js is simple to edit 😉')
-        await typing.sleep(1000)
-        await typing.write('Typing.js use Promises and he is completely independent.')
-        await typing.sleep(500)
-        await typing.write('Thank to use Typing.js !')
-        
-    })</code></pre>
+    // Create typing instance
+    const typing = new Typing({
+        time : 80,      // latence of typing
+        id : 'typing'   // #id of output HTMLElement
+    })
+
+    // Pitch
+    await typing.write('Hello everyone')
+    await typing.write('Hello World !')
+
+    // Break X ms
+    await typing.sleep(500)
+
+    // Pitch again and break again...
+    await typing.write('&lt;span class="name"&gt;Typing.js&lt;/span&gt; is simple to use, and...')
+    await typing.sleep(500)
+    await typing.write('&lt;span class="name"&gt;Typing.js&lt;/span&gt; is simple to edit 😉')
+    await typing.sleep(1000)
+    await typing.write('&lt;span class="name"&gt;Typing.js&lt;/span&gt; use Promises and he is completely independent.')
+    await typing.sleep(500)
+    await typing.write('Thank to use &lt;span class="name"&gt;Typing.js&lt;/span&gt; !')
+
+})</code></pre>
     <script src="./typing/typing.js"></script>
     <script src="./script.js"></script>
 </body>

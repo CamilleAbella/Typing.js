@@ -3,20 +3,31 @@
     padding: 0;
 }
 
+a {
+    color: #d88;
+    text-decoration: none;
+}
+
 body {
     background-color: #444;
 }
 
-.head {
+.download {
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #fff;
+    padding: 20px;
+}
+
+.example {
     font-size: 30px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    /* text-align: center; */
     color: #fff;
     height: 70px;
     padding: 40px;
 }
 
-.head pre, .head code {
+.example pre, .example code {
     display: inline;
 }
 
@@ -24,6 +35,6 @@ body {
     font-size: 20px;
 }
 
-.name {
+.pink {
     color: #d88;
 }

@@ -1,4 +1,3 @@
-
 class Typing {
 
     constructor( options = {} ){
@@ -10,7 +9,7 @@ class Typing {
     }
 
     async write(input){
-        const regex = /(<\/?[\S^/]+[^>]*>)/mg
+        const regex = /<\/?[\S^/>]+?[^>]*>/mg
         this.inputTags = []
         this.outputTags = []
         this.input = input || this.input
@@ -49,6 +48,8 @@ class Typing {
         }catch( error ){
             throw error
         }
+
+        return this
     }
 
     async untype(){

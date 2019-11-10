@@ -1,4 +1,24 @@
+
+/** 
+ * Class represents an HTML element of output  
+ * @typedef {Object} Typing 
+ * @property {string} id Id attribute of target HTML element
+ * @property {number} time Approximate milliseconds break between each letter typed
+ * @property {string} input Input text to resolve and write
+ * @property {string} output Current content of target HTML element
+ * @property {HTMLElement} outputElement Output HTML element
+ * @property {array} inputTags HTML tags found inner current input text
+ * @property {array} outputTags HTML tags found inner current output HTML element
+ */
+
 class Typing {
+
+    /**
+     * Construct link between target HTML element and Typing methods
+     * @param {object} [options={}] Constructor options
+     * @param {string} [options.id='typing'] Id attribute of target HTML element
+     * @param {number} [options.time=80] Approximate milliseconds break between each letter typed
+     */
 
     constructor( options = {} ){
         this.id = options.id || 'typing'
@@ -8,16 +28,41 @@ class Typing {
         this.outputElement = null
     }
 
-    async write(input){
+    /**
+     * Resolve inputs and applies a succession of write method for each
+     * @async
+     * @function thread
+     * @param {Array} inputs Inputs text to resolve and write
+     * @param {number} [sleepTime] Optional milliseconds of end breaks
+     * @returns {Promise} Promise of current Typing instance
+     */
+
+    async thread(inputs, sleepTime){
+        for(const input of inputs){
+            await this.write(input, sleepTime)
+        }
+        return this
+    }
+
+    /**
+     * Resolve input, erase and write to target HTML element
+     * @async
+     * @function write
+     * @param {string} [input=this.input] Input text to resolve and write
+     * @param {number} [sleepTime] Optinal milliseconds of end break
+     * @returns {Promise} Promise of current Typing instance
+     */
+
+    async write(input, sleepTime){
         const regex = /<\/?[\S^/>]+?[^>]*>/mg
         this.inputTags = []
         this.outputTags = []
         this.input = input || this.input
-        this.outputElement = this.getOutput()
+        this.outputElement = this._getOutput()
         this.output = this.outputElement.innerHTML
         this.input = this.input.replace(/\s+/gm,' ')
 
-        // detection des balises
+        // detect input tags
         if(regex.test(this.input)){
             regex.lastIndex = 0
             const tags = Array.from(this.input.matchAll(regex))
@@ -29,6 +74,8 @@ class Typing {
                 }
             })
         }
+        
+        // detect output tags
         if(regex.test(this.output)){
             regex.lastIndex = 0
             const tags = Array.from(this.output.matchAll(regex))
@@ -41,10 +88,12 @@ class Typing {
             })
         }
 
-        // execution
+        // write
         try{
-            await this.untype()
-            await this.type()
+            await this._untype()
+            await this._type()
+            if( sleepTime )
+            await this.sleep( sleepTime )
         }catch( error ){
             throw error
         }
@@ -52,7 +101,28 @@ class Typing {
         return this
     }
 
-    async untype(){
+    /**
+     * Sleep function for wait between async/await actions
+     * @async
+     * @function sleep
+     * @param {number} time Milliseconds to spread
+     * @returns {Promise} Promise of the end of the break
+     */
+
+    sleep( time ){
+        return new Promise( resolve => {
+            setTimeout( resolve, time )
+        })
+    }
+
+    /**
+     * Write input to target HTML element
+     * @async
+     * @private
+     * @function _untype
+     */
+
+    async _untype(){
         let first = true
         await this.sleep( this.time + Math.floor(Math.random() * (this.time)) )
         while(this.output.length > 0 && !this.input.startsWith(this.output)){
@@ -77,8 +147,15 @@ class Typing {
             }
         }
     }
+
+    /**
+     * Erase inner target HTML element
+     * @async
+     * @private
+     * @function _type
+     */
     
-    async type(){
+    async _type(){
         while(this.input.length > this.output.length){
 
             const innerTag = this.inputTags.some(tag => {
@@ -100,13 +177,13 @@ class Typing {
         }
     }
 
-    sleep( time ){
-        return new Promise( resolve => {
-            setTimeout( resolve, time )
-        })
-    }
+    /**
+     * Get target HTML element
+     * @private
+     * @function _getOutput
+     */
 
-    getOutput(){
+    _getOutput(){
         return document.getElementById( this.id )
     }
 }
